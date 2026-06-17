@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Guppy.Domain/Guppy.Domain.csproj" />
+  </Folder>
+</Solution>
