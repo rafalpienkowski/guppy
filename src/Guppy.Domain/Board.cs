@@ -25,26 +25,54 @@ public enum Piece
 
 public class Board
 {
-    private const Piece Piece = default;
-    private static Piece[]? square;
-
-    public Board()
+    private static readonly Piece[] Square = new Piece[64];
+    private static readonly Dictionary<char, Piece> Symbols = new()
     {
-        square = new Piece[64];
-        square[0] = Piece.White | Piece.Rook;
+            { 'k', Piece.King | Piece.Black },
+            { 'K', Piece.King | Piece.White },
+            { 'p', Piece.Pawn | Piece.Black },
+            { 'P', Piece.Pawn | Piece.White },
+            { 'b', Piece.Bishop | Piece.Black },
+            { 'B', Piece.Bishop | Piece.White },
+            { 'r', Piece.Rook | Piece.Black },
+            { 'R', Piece.Rook | Piece.White },
+            { 'q', Piece.Queen | Piece.Black },
+            { 'Q', Piece.Queen | Piece.White },
+            { 'n', Piece.Knight | Piece.Black },
+            { 'N', Piece.Knight | Piece.White }
+        };
+
+    public static void LoadFromFen(string fen)
+    {
+        var fenBoard = fen.Split(' ')[0];
+        int file = 0;
+        int rank = 7;
+        foreach (var symbol in fenBoard)
+        {
+            if (symbol == '/')
+            {
+                file = 0;
+                rank--;
+            }
+            else
+            {
+                if (char.IsDigit(symbol))
+                {
+                    file += (int)char.GetNumericValue(symbol);
+                }
+                else
+                {
+                    Square[(rank * 8) + file] = Symbols[symbol];
+                    file++;
+                }
+            }
+        }
     }
 
-    /*
-    public void LoadFen(string fen)
-    {
-    }
-    */
-
-    public void Print()
+    public static void Print()
     {
         Console.OutputEncoding = Encoding.UTF8;
         // required for the glyphs (esp. on Windows)
-        //
 
         for (int rank = 7; rank >= 0; rank--)
         {
@@ -54,12 +82,10 @@ public class Board
                 Console.BackgroundColor = (rank + file) % 2 == 1
                     ? ConsoleColor.DarkGray
                     : ConsoleColor.Gray;
-                Console.ForegroundColor = (rank + file) % 2 == 0
+                Console.ForegroundColor = Square[(rank * 8) + file].HasFlag(Piece.Black)
                     ? ConsoleColor.White
                     : ConsoleColor.Black;
-                //Console.Write($" {Glyph(square[(rank * 8) + file])} ");  // ♚♛♜♝♞♟ for both sides
-                //Console.Write(" ");
-                Console.Write($"{(rank * 8 + file):00}");
+                Console.Write($" {Glyph(Square[(rank * 8) + file])} ");  // ♚♛♜♝♞♟ for both sides
             }
 
             Console.ResetColor();
@@ -71,12 +97,18 @@ public class Board
     {
         return piece switch
         {
-            Piece.King => "♚",
-            Piece.Queen => "♛",
-            Piece.Rook => "♜",
-            Piece.Bishop => "♝",
-            Piece.Knight => "♞",
-            Piece.Pawn => "♟",
+            Piece.King | Piece.White => "♚",
+            Piece.King | Piece.Black => "♚",
+            Piece.Queen | Piece.Black => "♛",
+            Piece.Queen | Piece.White => "♛",
+            Piece.Rook | Piece.Black => "♜",
+            Piece.Rook | Piece.White => "♜",
+            Piece.Bishop | Piece.Black => "♝",
+            Piece.Bishop | Piece.White => "♝",
+            Piece.Knight | Piece.Black => "♞",
+            Piece.Knight | Piece.White => "♞",
+            Piece.Pawn | Piece.Black => "♟",
+            Piece.Pawn | Piece.White => "♟",
             Piece.None => " ",
             _ => ""
         };
