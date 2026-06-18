@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Guppy.Domain;
 
 [Flags]
@@ -21,14 +23,63 @@ public enum Piece
     // color = white | type = knight
 }
 
-public class Board {
-    public static Piece[] Square;
+public class Board
+{
+    private const Piece Piece = default;
+    private static Piece[]? square;
 
     public Board()
     {
-        Square = new Piece[64];
+        square = new Piece[64];
+        square[0] = Piece.White | Piece.Rook;
+    }
 
-        Square[0] = Piece.White | Piece.Rook;
+    /*
+    public void LoadFen(string fen)
+    {
+    }
+    */
+
+    public void Print()
+    {
+        Console.OutputEncoding = Encoding.UTF8;
+        // required for the glyphs (esp. on Windows)
+        //
+
+        for (int rank = 7; rank >= 0; rank--)
+        {
+            Console.Write(" ");
+            for (int file = 0; file < 8; file++)
+            {
+                Console.BackgroundColor = (rank + file) % 2 == 1
+                    ? ConsoleColor.DarkGray
+                    : ConsoleColor.Gray;
+                Console.ForegroundColor = (rank + file) % 2 == 0
+                    ? ConsoleColor.White
+                    : ConsoleColor.Black;
+                //Console.Write($" {Glyph(square[(rank * 8) + file])} ");  // ♚♛♜♝♞♟ for both sides
+                //Console.Write(" ");
+                Console.Write($"{(rank * 8 + file):00}");
+            }
+
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+    }
+
+    private static string Glyph(Piece piece)
+    {
+        return piece switch
+        {
+            Piece.King => "♚",
+            Piece.Queen => "♛",
+            Piece.Rook => "♜",
+            Piece.Bishop => "♝",
+            Piece.Knight => "♞",
+            Piece.Pawn => "♟",
+            Piece.None => " ",
+            _ => ""
+        };
     }
 }
 
