@@ -45,8 +45,8 @@ public class Board
     public static void LoadFromFen(string fen)
     {
         var fenBoard = fen.Split(' ')[0];
-        int file = 0;
-        int rank = 7;
+        var file = 0;
+        var rank = 7;
         foreach (var symbol in fenBoard)
         {
             if (symbol == '/')
@@ -69,49 +69,10 @@ public class Board
         }
     }
 
-    public static void Print()
-    {
-        Console.OutputEncoding = Encoding.UTF8;
-        // required for the glyphs (esp. on Windows)
-
-        for (int rank = 7; rank >= 0; rank--)
-        {
-            Console.Write(" ");
-            for (int file = 0; file < 8; file++)
-            {
-                Console.BackgroundColor = (rank + file) % 2 == 1
-                    ? ConsoleColor.DarkGray
-                    : ConsoleColor.Gray;
-                Console.ForegroundColor = Square[(rank * 8) + file].HasFlag(Piece.Black)
-                    ? ConsoleColor.White
-                    : ConsoleColor.Black;
-                Console.Write($" {Glyph(Square[(rank * 8) + file])} ");  // ♚♛♜♝♞♟ for both sides
-            }
-
-            Console.ResetColor();
-            Console.WriteLine();
-        }
-    }
-
-    private static string Glyph(Piece piece)
-    {
-        return piece switch
-        {
-            Piece.King | Piece.White => "♚",
-            Piece.King | Piece.Black => "♚",
-            Piece.Queen | Piece.Black => "♛",
-            Piece.Queen | Piece.White => "♛",
-            Piece.Rook | Piece.Black => "♜",
-            Piece.Rook | Piece.White => "♜",
-            Piece.Bishop | Piece.Black => "♝",
-            Piece.Bishop | Piece.White => "♝",
-            Piece.Knight | Piece.Black => "♞",
-            Piece.Knight | Piece.White => "♞",
-            Piece.Pawn | Piece.Black => "♟",
-            Piece.Pawn | Piece.White => "♟",
-            Piece.None => " ",
-            _ => ""
-        };
-    }
+    /// <summary>
+    /// For UI only
+    /// </summary>
+    public static Piece GetByCoordinate(int rank, int file) =>
+        Square[(rank * 8) + file];
 }
 
