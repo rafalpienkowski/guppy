@@ -3,4 +3,5 @@
     <Project Path="src/Guppy.Console/Guppy.Console.csproj" />
     <Project Path="src/Guppy.Domain/Guppy.Domain.csproj" />
   </Folder>
+  <Project Path="src/Guppy.UI/Guppy.UI/Guppy.UI.csproj" />
 </Solution>
