@@ -1,20 +1,25 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:Guppy.UI.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Guppy.UI.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="Guppy.UI">
+        Title="Guppy"
+        Width="740" Height="780"
+        Background="#2B2B2B">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <Viewbox Margin="24">
+        <!-- Column 0 holds the rank numbers, column 1 the board.
+             Row 0 holds the board, row 1 the file letters. -->
+        <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <UniformGrid x:Name="RankLabels" Grid.Row="0" Grid.Column="0"
+                         Rows="8" Columns="1" Width="28" Height="640" />
+
+            <UniformGrid x:Name="BoardGrid" Grid.Row="0" Grid.Column="1"
+                         Rows="8" Columns="8" Width="640" Height="640" />
+
+            <UniformGrid x:Name="FileLabels" Grid.Row="1" Grid.Column="1"
+                         Rows="1" Columns="8" Width="640" Height="28" />
+
+        </Grid>
+    </Viewbox>
 
 </Window>
