@@ -74,5 +74,8 @@ public class Board
     /// </summary>
     public static Piece GetByCoordinate(int rank, int file) =>
         Square[(rank * 8) + file];
+
+    public static void SetByCoordinate(int rank, int file, Piece piece) =>
+        Square[(rank * 8) + file] = piece;
 }
 

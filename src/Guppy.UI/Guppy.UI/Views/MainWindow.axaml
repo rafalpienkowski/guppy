@@ -13,8 +13,10 @@
             <UniformGrid x:Name="RankLabels" Grid.Row="0" Grid.Column="0"
                          Rows="8" Columns="1" Width="28" Height="640" />
 
-            <UniformGrid x:Name="BoardGrid" Grid.Row="0" Grid.Column="1"
-                         Rows="8" Columns="8" Width="640" Height="640" />
+            <Grid Grid.Row="0" Grid.Column="1">
+                <UniformGrid x:Name="BoardGrid" Rows="8" Columns="8" Width="640" Height="640" />
+                <Canvas x:Name="DragLayer" Width="640" Height="640" IsHitTestVisible="False" />
+            </Grid>
 
             <UniformGrid x:Name="FileLabels" Grid.Row="1" Grid.Column="1"
                          Rows="1" Columns="8" Width="640" Height="28" />
